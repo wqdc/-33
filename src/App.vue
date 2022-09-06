@@ -1,11 +1,6 @@
 <template>
   <div>
-    <van-button type="primary">主要按钮</van-button>
-    <van-button type="info">信息按钮</van-button>
-    <van-button type="default">默认按钮</van-button>
-    <van-button type="warning">警告按钮</van-button>
-    <van-button type="danger">危险按钮</van-button>
-    <div id="box"></div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -34,6 +29,10 @@
 // postcss 自己能干的事情很少，需要额外下载插件
 // 下载  yarn add postcss-pxtorem
 // 新建 .postcssrc.js
+
+// 新建分支
+// ①-feature/login  ----  git checkout-b新建并且切换分支
+// 首次推分支  git push -u 远程仓库名 分支名
 export default {}
 </script>
 
