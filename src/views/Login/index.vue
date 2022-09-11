@@ -11,7 +11,7 @@
         :rules="mobileRules"
       >
         <template #label>
-          <span class="iconfont icon-shouji"></span>
+          <span class="toutiao toutiao-shouji"></span>
         </template>
       </van-field>
       <van-field
@@ -21,7 +21,7 @@
         :rules="codeRules"
       >
         <template #label>
-          <span class="iconfont icon-yanzhengma"></span>
+          <span class="toutiao toutiao-yanzhengma"></span>
         </template>
         <template #button>
           <van-button

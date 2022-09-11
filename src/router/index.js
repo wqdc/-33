@@ -3,6 +3,29 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 const routes = [
   {
+    path: '/',
+    component: () => import('@/views/Layout'),
+    redirect: '/ ',
+    children: [
+      {
+        path: '/ ',
+        component: () => import('@/views/Home')
+      },
+      {
+        path: '/video',
+        component: () => import(/* webpackChunkName: "bause" */'@/views/Video')
+      },
+      {
+        path: '/qa',
+        component: () => import(/* webpackChunkName: "bause" */'@/views/QA')
+      },
+      {
+        path: '/profile',
+        component: () => import(/* webpackChunkName: "My" */'@/views/My')
+      }
+    ]
+  },
+  {
     path: '/login',
     // SPA
     // 首屏加载速度很慢
