@@ -37,6 +37,7 @@
           v-for="item in recommendChannels"
           :key="item.id"
           icon="plus"
+          @click="($emit('add-channel', item))"
         />
       </van-grid>
     </div>
@@ -72,10 +73,11 @@ export default {
       console.log(data)
       this.allChannels = data.data.channels
     },
-    handleMychannel({ name }, index) {
+    handleMychannel({ name, id }, index) {
       if (this.isEdit && name !== '推荐') {
         // 删除
-        console.log(1)
+        // console.log(1)
+        this.$emit('del-channel', id)
       } else {
         // 关闭并跳转
         this.$emit('change-active', index)

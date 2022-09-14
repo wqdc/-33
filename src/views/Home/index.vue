@@ -18,6 +18,7 @@
       <span class="toutiao toutiao-gengduo" @click="isShow = true"></span>
     </van-tabs>
     <van-popup
+    v-if="isShow"
       v-model="isShow"
       position="bottom"
       :style="{ height: '100%' }"
@@ -27,15 +28,19 @@
       <channel-edit
         :myChanelEdit="channels"
         @change-active=";[(isShow = false), (active = $event)]"
+        @del-channel="delChannel"
+        @add-channel="addChannel"
       ></channel-edit>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { getChannelAPI } from '@/api'
+import { getChannelAPI, delChannelAPI, addChannelAPI } from '@/api'
 import ArticleList from './components/ArticleList.vue'
 import ChannelEdit from './components/ChannelEdit.vue'
+// ? 两套系统用vuex里的islogin来判断
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -49,8 +54,29 @@ export default {
     ChannelEdit
   },
   methods: {
-    // ?? ===> 相当于 || 常用于语句
+    // 引入vuex里的方法
+    ...mapMutations(['SET_MY_CHANNELS']),
+    // ------------------------
+    // ?？ ===> 相当于 || 常用于语句
     // ?  ===> 可选链操作符， ?前面是undifined，那么不会继续往后面取值
+    initChannels() {
+      // 设置了请求拦截器  自动添加本地存储的token值
+      if (this.isLogin) {
+        // 如果是登录状态 有token 直接调用请求数据
+        this.getChannel()
+      } else {
+        // 取出本地存储的频道数据
+        const myChannels = this.$store.state.myChannels
+        // 如果未登录 没有token 进行判断
+        if (myChannels.length === 0) {
+          // 如果本地存储数据长度为0  调用请求头token为空对象的axios请求
+          this.getChannel()
+        } else {
+          // 如果本地存储的频道有数据 直接调用本地存储的数据，即vuex里的mychannels
+          this.channels = myChannels
+        }
+      }
+    },
     async getChannel() {
       try {
         const {
@@ -68,10 +94,46 @@ export default {
           status === 507 ?? this.$toast.fail('请刷新重试')
         }
       }
+    },
+    async delChannel(id) {
+      const newChannel = this.channels.filter((item) => item.id !== id)
+      try {
+        // ? 发送删除频道
+        if (this.isLogin) {
+          await delChannelAPI(id)
+        } else {
+          //  未登录频道存储本地
+          this.SET_MY_CHANNELS(newChannel)
+        }
+        this.channels = newChannel
+        this.$toast.success('删除成功')
+      } catch (error) {
+        if (error.respones?.status === 401) {
+          this.$toast.fail('请登录后重试')
+        }
+      }
+    },
+    async addChannel(channel) {
+      try {
+        if (this.isLogin) {
+          await addChannelAPI(channel.id, this.channels.length)
+        } else {
+          this.SET_MY_CHANNELS([...this.channels, channel])
+        }
+        // console.log(channel.id, this.channels.length)
+        this.channels.push(channel)
+      } catch (error) {
+        if (error.respones?.status === 401) {
+          this.$toast.fail('请登录后重试')
+        }
+      }
     }
   },
+  computed: {
+    ...mapGetters(['isLogin'])
+  },
   created() {
-    this.getChannel()
+    this.initChannels()
   }
 }
 </script>

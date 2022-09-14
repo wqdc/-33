@@ -36,14 +36,14 @@
             if (this.status === PENDING) {
               this.value = value
               this.status = FULFILLED
-              this.onFulfilledCallBacks.forEach(cb => cb())
+              this.onFulfilledCallBacks.forEach((cb) => cb())
             }
           }
           const reject = (reason) => {
             if (this.status === PENDING) {
               this.reason = reason
               this.status = REJECTED
-              this.onRejectedCallBacks.forEach(cb => cb())
+              this.onRejectedCallBacks.forEach((cb) => cb())
             }
           }
           try {
@@ -53,30 +53,57 @@
           }
         }
         then(onFulfilled, onRejected) {
-          if (this.status === FULFILLED) {
-            onFulfilled(this.value)
-          }
-          if (this.status === REJECTED) {
-            onRejected(this.reason)
-          }
-          if (this.status === PENDING) {
-            // 异步
-            // 订阅
-            this.onFulfilledCallBacks.push(() => {
-              onFulfilled()
-            })
-            this.onRejectedCallBacks .push(() => {
-              onRejected()
-            })
-          }
+          const p2 = new Promise((resolve, reject) => {
+            if (this.status === FULFILLED) {
+              queueMicrotask(() => {
+                try {
+                 const x = onFulfilled(this.value)
+                } catch (error) {
+                  reject(error)
+                }
+              })
+            }
+            if (this.status === REJECTED) {
+              queueMicrotask(() => {
+                try {
+                  const x = onRejected(this.reason)
+                } catch (error) {
+                  reject(error)
+                }
+              })
+            }
+            if (this.status === PENDING) {
+              // 异步
+              // 订阅
+              this.onFulfilledCallBacks.push(() => {
+                queueMicrotask(() => {
+                  try {
+                    let x = onFulfilled(this.value)
+                  } catch (error) {
+                    reject(error)
+                  }
+                })
+              })
+              this.onRejectedCallBacks.push(() => {
+                queueMicrotask(() => {
+                  try {
+                    let x = onRejected(this.value)
+                  } catch (error) {
+                    reject(error)
+                  }
+                })
+              })
+            }
+          })
+          return p2
         }
       }
-      const promise = new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // reject('失败')
-          resolve('成功')
-        }, 2000)
-      })
+      // const promise = new Promise((resolve, reject) => {
+      //   setTimeout(() => {
+      //     // reject('失败')
+      //     resolve('成功')
+      //   }, 2000)
+      // })
       // const p1 = new Promise(() => { }) //Pending
       // const p2 = new Promise((resolve) => resolve()) // fulfilled
       // const p3 = new Promise((resolve, reject) => reject()) // rejected
@@ -86,6 +113,7 @@
       //   'p2', p2,
       //   'p3', p3
       // )
+
       console.log(promise)
     </script>
   </body>
