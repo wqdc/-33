@@ -4380,6 +4380,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+ludash@^0.1.0-pre:
+  version "0.1.0-pre"
+  resolved "https://registry.npmmirror.com/ludash/-/ludash-0.1.0-pre.tgz#e33592f8e9cf443ccf333d6099a91a628df781ab"
+  integrity sha512-stjctlc6imrc5Cbqaz8amGJaoVcJhPkCZzIYCy7ZbjYwImaaHLJz1QNwMk53cRKbvZZyAWdkt0u8dWhe03q42Q==
+
 make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmmirror.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"

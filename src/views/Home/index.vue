@@ -3,7 +3,13 @@
     <!-- 搜索框 -->
     <van-nav-bar class="nav-bar">
       <template #title>
-        <van-button type="default" icon="search" block round size="small"
+        <van-button
+          type="default"
+          icon="search"
+          block
+          round
+          size="small"
+          @click="$router.push('/search')"
           >默认按钮</van-button
         >
       </template>
@@ -18,7 +24,7 @@
       <span class="toutiao toutiao-gengduo" @click="isShow = true"></span>
     </van-tabs>
     <van-popup
-    v-if="isShow"
+      v-if="isShow"
       v-model="isShow"
       position="bottom"
       :style="{ height: '100%' }"
