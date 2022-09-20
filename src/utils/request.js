@@ -8,7 +8,7 @@ import axios from 'axios'
 
 // 避免耦合性过强 使用axios.create  克隆axios
 const request = axios.create({
-  timeout: 5000,
+  // timeout: 5000,
   baseURL: 'http://toutiao.itheima.net'
 })
 

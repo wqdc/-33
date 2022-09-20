@@ -13,15 +13,15 @@ const routes = [
       },
       {
         path: '/video',
-        component: () => import(/* webpackChunkName: "bause" */'@/views/Video')
+        component: () => import(/* webpackChunkName: "bause" */ '@/views/Video')
       },
       {
         path: '/qa',
-        component: () => import(/* webpackChunkName: "bause" */'@/views/QA')
+        component: () => import(/* webpackChunkName: "bause" */ '@/views/QA')
       },
       {
         path: '/profile',
-        component: () => import(/* webpackChunkName: "My" */'@/views/My')
+        component: () => import(/* webpackChunkName: "My" */ '@/views/My')
       }
     ]
   },
@@ -35,7 +35,15 @@ const routes = [
   },
   {
     path: '/search',
-    component: () => import(/* webpackChunkName: "Search" */'@/views/Search')
+    component: () => import(/* webpackChunkName: "Search" */ '@/views/Search')
+  },
+  {
+    path: '/user',
+    component: () => import(/* webpackChunkName: "User" */ '@/views/User')
+  },
+  {
+    path: '/article',
+    component: () => import(/* webpackChunkName: "User" */ '@/views/Article')
   }
 ]
 

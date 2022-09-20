@@ -5,7 +5,7 @@ module.exports = {
   plugins: [
     pxToRem({
       //设置根节点的字体大小
-      rootValue: ({ file }) => (/vant/.test(file) ? 37.5 : 75),
+      rootValue: ({ file }) => (/(vant|github)/.test(file) ? 37.5 : 75),
       //所有属性都转成rem
       propList: ['*']
     })

@@ -14,7 +14,7 @@
         error-text="请求失败，点击重新加载"
         @click="
           $router.push({
-            path: '/detail',
+            path: '/article',
             query: {
               articleId: item.art_id
             }

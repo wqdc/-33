@@ -79,6 +79,7 @@
                 queueMicrotask(() => {
                   try {
                     let x = onFulfilled(this.value)
+                    resolvePromise(x, p2, resolve, reject)
                   } catch (error) {
                     reject(error)
                   }
@@ -97,6 +98,14 @@
           })
           return p2
         }
+      }
+      function resolvePromise(x, p2, resolve, reject) {
+        const p = new Promise((resolve, reject) => {
+          // resolve()
+          if(x===p2) {
+            throw new TypeError('C haining cycle detected for promise #<Promise>')
+          }
+        })
       }
       // const promise = new Promise((resolve, reject) => {
       //   setTimeout(() => {

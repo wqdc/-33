@@ -20,15 +20,17 @@ export default new Vuex.Store({
     createPersistedState({
       key: 'HEIMA_TOUTIAO',
       // Storage: window.sessionStorage,
-      reducer({ tokenObj, myChannels, histories }) {
-        return { tokenObj, myChannels, histories }
+      reducer({ tokenObj, myChannels, histories, isTrue }) {
+        return { tokenObj, myChannels, histories, isTrue }
       }
     })
   ],
   state: {
     tokenObj: {},
     myChannels: [],
-    histories: []
+    histories: [],
+    follow: false
+
   },
   getters: {
     isLogin(state) {
